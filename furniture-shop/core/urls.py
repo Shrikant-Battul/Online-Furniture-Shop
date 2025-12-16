@@ -1,0 +1,31 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('cart/add/<int:product_id>/', views.cart_add, name='cart_add'),
+    path('cart/remove/<int:product_id>/', views.cart_remove, name='cart_remove'),
+    path('pay/<int:order_id>/', views.order_pay, name='order_pay'),
+    path('profile/', views.profile, name='profile'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    path('furniture/', views.furniture_menu, name='furniture_menu'),
+    path('furniture/chairs/', views.chairs, name='chairs'),
+    path('furniture/tables/', views.tables, name='tables'),
+    path('furniture/beds/', views.beds, name='beds'),
+    path('furniture/sofas/', views.sofas, name='sofas'),
+    path('furniture/wardrobes/', views.wardrobes, name='wardrobes'),
+    path('furniture/office/', views.office_furniture, name='office_furniture'),
+    path('furniture/outdoor/', views.outdoor_furniture, name='outdoor_furniture'),
+    path('furniture/kids/', views.kids_furniture, name='kids_furniture'),
+    path('furniture/<slug:slug>/', views.category_dynamic, name='category_dynamic'),
+    path('cart/', views.cart, name='cart'),
+    path('checkout/', views.checkout, name='checkout'),
+    path('order/pending/<int:order_id>/', views.order_pending, name='order_pending'),
+    path('order/status/<int:order_id>/', views.order_status, name='order_status'),
+    path('payment-methods/', views.payment_methods, name='payment_methods'),
+    path('order-success/', views.order_success, name='order_success'),
+]

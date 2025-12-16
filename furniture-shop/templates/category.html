@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ title }}</h2>
+<div class="products">
+  {% for p in products %}
+    <div class="product-card">
+      {% if p.image_url %}
+        <img class="product-media" src="{{ p.image_url }}" alt="{{ p.name }}">
+      {% else %}
+        <img class="product-media" src="https://picsum.photos/seed/fallback{{ forloop.counter }}/600/450" alt="{{ p.name }}">
+      {% endif %}
+      <div class="product-body">
+        <h3 class="product-title">{{ p.name }}</h3>
+        <p class="product-meta">
+          <span class="price">₹{{ p.price }}</span>
+          {% if p.id %}
+            <a href="/cart/add/{{ p.id }}/" class="cta">Add to Cart</a>
+          {% else %}
+            <a href="/furniture/{{ title|lower }}/" class="cta" aria-disabled="true">Add to Cart</a>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  {% empty %}
+    <p>No products found.</p>
+  {% endfor %}
+</div>
+{% endblock %}

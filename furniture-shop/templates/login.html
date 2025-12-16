@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Login</h2>
+{% if messages %}
+  <div class="alert">
+    {% for m in messages %}
+      <div>{{ m }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+<form method="post" class="auth-form" novalidate>
+  {% csrf_token %}
+  <label>Username</label>
+  {{ form.username }}
+  {% for e in form.username.errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+  <label>Password</label>
+  {{ form.password }}
+  {% for e in form.password.errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+  <label>OTP</label>
+  {{ form.otp }}
+  {% for e in form.otp.errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <button class="button" type="submit">Login</button>
+    <button class="button" type="submit" name="resend_otp" value="1" style="background:#e5e7eb;color:#111827">Resend OTP</button>
+  </div>
+  <p class="muted">New here? <a href="/register/">Create an account</a></p>
+</form>
+<style>
+.auth-form{max-width:520px;margin-top:12px}
+.auth-form input{width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);margin:6px 0 12px}
+.error{color:#b91c1c;margin-top:-6px;margin-bottom:8px}
+.muted{color:var(--muted)}
+.alert{max-width:520px;margin:10px 0;padding:10px 12px;border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:8px}
+</style>
+{% endblock %}

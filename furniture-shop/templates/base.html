@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Furniture Shop</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand"><a href="/">Furniture Shop</a></h1>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <div class="dropdown">
+          <button class="dropbtn" aria-haspopup="true" aria-expanded="false">Furniture ▾</button>
+          <div class="dropdown-content" role="menu">
+            {% for name, slug in nav_categories %}
+              <a role="menuitem" href="/furniture/{{ slug }}/">{{ name }}</a>
+            {% endfor %}
+          </div>
+        </div>
+        <a href="/cart/">Cart <span class="badge">{{ cart_count }}</span></a>
+        <a href="/checkout/">Checkout</a>
+        <a href="/payment-methods/">Payment</a>
+        <a href="/contact/">Contact</a>
+        <span style="margin-left:auto;display:flex;gap:8px">
+          {% if request.user.is_authenticated %}
+            <a class="button" href="/profile/">Profile</a>
+            <a class="button" href="/logout/">Logout</a>
+          {% else %}
+            <a class="button" href="/login/">Login</a>
+            <a class="button" href="/register/">Register</a>
+          {% endif %}
+        </span>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© {{ now|default:2025 }} Furniture Shop. Simple demo site.</p>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const dd = document.querySelector('.dropdown');
+      const btn = document.querySelector('.dropbtn');
+      if(!dd || !btn) return;
+      function closeAll(){ dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        const isOpen = dd.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      document.addEventListener('click', function(e){
+        if(!dd.contains(e.target)) closeAll();
+      });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
+    })();
+  </script>
+</body>
+</html>

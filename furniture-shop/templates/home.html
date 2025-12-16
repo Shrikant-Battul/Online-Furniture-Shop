@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Explore Categories</h2>
+<div class="slider" id="catSlider">
+  <div class="slider-track">
+    {% for name, slug in nav_categories %}
+    <div class="slide">
+      <img class="slide-media" src="https://picsum.photos/seed/{{ slug }}-home/1200/500" alt="{{ name }}">
+      <div class="slide-caption">
+        <h3>{{ name }}</h3>
+        <a class="button" href="/furniture/{{ slug }}/">Shop {{ name }}</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <button class="arrow prev" aria-label="Previous">‹</button>
+  <button class="arrow next" aria-label="Next">›</button>
+  <div class="dots"></div>
+  </div>
+
+<script>
+(function(){
+  const root = document.getElementById('catSlider');
+  if(!root) return;
+  const track = root.querySelector('.slider-track');
+  const slides = Array.from(root.querySelectorAll('.slide'));
+  const prev = root.querySelector('.prev');
+  const next = root.querySelector('.next');
+  const dotsWrap = root.querySelector('.dots');
+  let index = 0, timer;
+
+  function renderDots(){
+    dotsWrap.innerHTML = '';
+    slides.forEach((_, i)=>{
+      const b = document.createElement('button');
+      b.className = 'dot' + (i===index?' active':'');
+      b.setAttribute('aria-label','Go to slide '+(i+1));
+      b.addEventListener('click',()=>go(i));
+      dotsWrap.appendChild(b);
+    });
+  }
+
+  function go(i){
+    index = (i+slides.length)%slides.length;
+    track.style.transform = `translateX(-${index*100}%)`;
+    renderDots();
+    restart();
+  }
+  function nextSlide(){ go(index+1); }
+  function prevSlide(){ go(index-1); }
+  function restart(){ clearInterval(timer); timer = setInterval(nextSlide, 4000); }
+
+  next.addEventListener('click', nextSlide);
+  prev.addEventListener('click', prevSlide);
+  renderDots();
+  go(0);
+})();
+</script>
+{% endblock %}

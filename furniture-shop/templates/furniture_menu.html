@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Furniture Menu</h2>
+<div class="grid">
+  {% for name, slug in categories %}
+    <a class="card" href="/furniture/{{ slug }}/">{{ name }}</a>
+  {% endfor %}
+  {% if not categories %}
+    <p>No categories available.</p>
+  {% endif %}
+  </div>
+{% endblock %}

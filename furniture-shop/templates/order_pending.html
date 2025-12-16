@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Order Pending</h2>
+<div class="card" style="text-align:left">
+  <p><strong>Order ID:</strong> {{ order.id }}</p>
+  <p><strong>Name:</strong> {{ order.name }}</p>
+  <p><strong>Total:</strong> ₹{{ order.total }}</p>
+  <p class="muted">Your order has been placed and is currently pending. The store admin will process the payment and update the status. You will be notified once it is confirmed.</p>
+  {% if order.payment_method == 'UPI' %}
+    <p class="muted">If you paid by UPI, you may be asked to share the UPI transaction ID with the store for faster verification.</p>
+  {% endif %}
+  <a class="button" href="/">Continue shopping</a>
+</div>
+
+<script>
+  (function() {
+    const statusUrl = "{% url 'order_status' order.id %}";
+    const successUrl = "{% url 'order_success' %}";
+    function checkStatus() {
+      fetch(statusUrl, {credentials: 'same-origin'})
+        .then(r => r.json())
+        .then(data => {
+          if (data && data.status && data.status.toLowerCase() === 'paid') {
+            window.location.href = successUrl;
+          }
+        })
+        .catch(() => {});
+    }
+    // Poll every 12 seconds
+    setInterval(checkStatus, 12000);
+    // Initial check after 2s
+    setTimeout(checkStatus, 2000);
+  })();
+</script>
+{% endblock %}

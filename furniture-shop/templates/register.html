@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Create an account</h2>
+<form method="post" class="auth-form" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+    <div class="error">{{ form.non_field_errors }}</div>
+  {% endif %}
+
+  <label>Username</label>
+  {{ form.username }}
+  {% for e in form.username.errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+  <label>Email</label>
+  {{ form.email }}
+  {% for e in form.email.errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+  <label>Password</label>
+  {{ form.password1 }}
+  {% for e in form.password1.errors %}<div class="error">{{ e }}</div>{% endfor %}
+  <small class="muted">Must be at least 8 characters, include 1 uppercase, 1 lowercase, and 1 number.</small>
+
+  <label>Confirm Password</label>
+  {{ form.password2 }}
+  {% for e in form.password2.errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+  <button class="button" type="submit">Register</button>
+  <p class="muted">Already have an account? <a href="/login/">Login</a></p>
+</form>
+<style>
+.auth-form{max-width:520px;margin-top:12px}
+.auth-form input{width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);margin:6px 0 12px}
+.error{color:#b91c1c;margin-top:-6px;margin-bottom:8px}
+.muted{color:var(--muted)}
+</style>
+{% endblock %}
